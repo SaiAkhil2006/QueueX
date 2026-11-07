@@ -1,11 +1,19 @@
 /**
- * Core domain types for QueueX Outpatient Department (OPD) queue management system.
+ * Core domain types and Zod schemas for QueueX Outpatient Department (OPD) queue management system.
  */
 
-export type QueueStatus = "waiting" | "in_consultation" | "completed" | "cancelled" | "delayed";
+export * from "./hospital";
+export * from "./department";
+export * from "./doctor";
+export * from "./patient";
+export * from "./appointment";
+export * from "./queue";
+export * from "./consultation";
+export * from "./operations";
+export * from "./prediction";
+export * from "./recommendation";
 
-export type PriorityLevel = "normal" | "priority" | "emergency";
-
+// General System & UI types
 export type DepartmentType =
   | "general_medicine"
   | "pediatrics"

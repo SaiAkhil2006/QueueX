@@ -86,6 +86,15 @@ Local2Global/
 - [x] Comprehensive environment variable documentation in `.env.example`.
 - [x] Automated test suite for Firebase configuration and error handling.
 
+### Feature F0.3: Firestore Database Structure
+- [x] Data relationships and shallow subcollection hierarchy established.
+- [x] TypeScript interfaces and Zod schemas for all core entities (`src/types/`).
+- [x] Firestore timestamp conversion and validation utilities (`src/lib/firebase/timestamps.ts`).
+- [x] Centralized collection path helpers (`src/lib/firebase/collections.ts`).
+- [x] Operational composite query indexes defined (`firestore.indexes.json`).
+- [x] Comprehensive schema and ER documentation (`docs/firestore-schema.md`).
+- [x] Unit test suite covering all schemas and conversions (`tests/schema.test.ts`, `tests/timestamps.test.ts`).
+
 ---
 
 ## Getting Started

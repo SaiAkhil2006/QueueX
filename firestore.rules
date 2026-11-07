@@ -3,17 +3,29 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     // =========================================================================
-    // QueueX Cloud Firestore Security Rules (Prototype F0.2)
+    // QueueX Cloud Firestore Security Rules (Stage F0.3)
     // =========================================================================
-    // By default, deny unrestricted client-side database access across all
-    // collections to protect patient and clinical data.
+    // Multi-tenant hospital data model:
+    // /hospitals/{hospitalId}/{collectionName}/{docId}
     //
-    // All trusted backend operations executed through the Firebase Admin SDK
-    // (in Next.js Route Handlers) bypass these rules automatically.
+    // By default, direct client-side read/write is disallowed across all collections
+    // to safeguard clinical records, triage tokens, and consultation history.
     //
-    // Granular role-based security rules (triage, doctors, patients, admin)
-    // will be introduced alongside authentication in future roadmap features.
+    // All trusted operational logic, live queue state modifications, and event logging
+    // are executed via Next.js Route Handlers using the Firebase Admin SDK.
+    //
+    // Role-based client rules (staff, doctors, kiosk tokens) will be introduced in
+    // subsequent roadmap features alongside user authentication.
     // =========================================================================
+
+    match /hospitals/{hospitalId} {
+      allow read, write: if false;
+
+      match /{subcollection}/{docId} {
+        allow read, write: if false;
+      }
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }
