@@ -95,6 +95,14 @@ Local2Global/
 - [x] Comprehensive schema and ER documentation (`docs/firestore-schema.md`).
 - [x] Unit test suite covering all schemas and conversions (`tests/schema.test.ts`, `tests/timestamps.test.ts`).
 
+### Feature F0.4: Shared TypeScript Types and Validation
+- [x] Centralized domain status constants and string literals (`src/constants/statuses.ts`).
+- [x] Clean separation between pure TypeScript domain types (`src/types/`) and Zod schemas (`src/schemas/`).
+- [x] Create, update, and document schemas for all core entities.
+- [x] Standardized validation utility and `ValidationError` class (`src/lib/validation/validate.ts`).
+- [x] Documented timestamp conventions and view model conversion helper (`Serialized<T>`).
+- [x] Unit test suite covering validation utilities and create/update operations (`tests/validation.test.ts`).
+
 ---
 
 ## Getting Started

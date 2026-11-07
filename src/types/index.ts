@@ -2,16 +2,18 @@
  * Core domain types and Zod schemas for QueueX Outpatient Department (OPD) queue management system.
  */
 
+export * from "./common";
 export * from "./hospital";
 export * from "./department";
 export * from "./doctor";
+export * from "./scheduling";
 export * from "./patient";
 export * from "./appointment";
 export * from "./queue";
 export * from "./consultation";
 export * from "./operations";
-export * from "./prediction";
-export * from "./recommendation";
+export * from "./intelligence";
+
 
 // General System & UI types
 export type DepartmentType =
