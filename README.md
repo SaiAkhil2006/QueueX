@@ -12,8 +12,9 @@ QueueX is an intelligent Outpatient Department (OPD) queue management and operat
 - **Language**: TypeScript (Strict Mode)
 - **Styling**: Tailwind CSS
 - **UI Primitives**: shadcn/ui
-- **Database**: Firebase Cloud Firestore (Planned in F0.2+)
+- **Database**: Firebase Cloud Firestore
 - **Backend**: Next.js Route Handlers
+- **Server Database Operations**: Firebase Admin SDK
 - **Validation**: Zod
 - **Testing**: Vitest
 - **Hosting / Deployment Target**: Firebase App Hosting
@@ -28,7 +29,10 @@ Local2Global/
 │   └── assets/           # Static public assets
 ├── src/
 │   ├── app/
-│   │   ├── api/          # Route Handlers (e.g. /api/health)
+│   │   ├── api/
+│   │   │   └── health/
+│   │   │       ├── route.ts          # General application health route
+│   │   │       └── firebase/route.ts # Firebase Admin & Firestore health route
 │   │   ├── globals.css   # Tailwind & shadcn styling system
 │   │   ├── layout.tsx    # Root layout with QueueX Header and Footer
 │   │   └── page.tsx      # QueueX application shell & OPD monitoring placeholder
@@ -40,13 +44,20 @@ Local2Global/
 │   ├── features/         # Modular feature domain slices (documented in features/README.md)
 │   ├── lib/
 │   │   ├── constants/    # Operational constants and timings
+│   │   ├── firebase/
+│   │   │   ├── admin.ts  # Server-only Firebase Admin SDK (Route Handlers)
+│   │   │   ├── client.ts # Firebase Client SDK (Web client)
+│   │   │   ├── config.ts # Zod validation schemas for Firebase credentials
+│   │   │   └── index.ts  # Clean module barrel
 │   │   └── utils.ts      # Class merging and utility helpers
 │   └── types/            # Core domain and operational types
 ├── tests/                # Automated Vitest test suite
 ├── .env.example          # Documented environment variables template
-├── .gitignore            # Git exclusions
+├── .gitignore            # Git exclusions (credentials protected)
 ├── components.json       # shadcn configuration
 ├── eslint.config.mjs     # ESLint configuration
+├── firebase.json         # Firebase project configuration
+├── firestore.rules       # Cloud Firestore security rules
 ├── next.config.ts        # Next.js configuration
 ├── package.json          # Dependencies and operational scripts
 ├── tsconfig.json         # Strict TypeScript configuration
@@ -55,15 +66,25 @@ Local2Global/
 
 ---
 
-## Current Status: Feature F0.1
+## Feature Progress
 
+### Feature F0.1: Project Initialization & Repository Structure
 - [x] Next.js App Router initialized with TypeScript strict mode.
 - [x] Tailwind CSS and shadcn/ui configured.
 - [x] Modular, extensible repository architecture established.
 - [x] Initial application shell with QueueX hospital operations branding.
 - [x] Vitest testing suite configured and passing.
-- [x] Health check API route handler (`/api/health`).
+- [x] Base health check API route handler (`/api/health`).
 - [x] Production build and TypeScript validation verified.
+
+### Feature F0.2: Firebase Project Configuration
+- [x] Firebase Client SDK configured with duplicate initialization guard (`src/lib/firebase/client.ts`).
+- [x] Firebase Admin SDK configured with `server-only` protection (`src/lib/firebase/admin.ts`).
+- [x] Credential validation schemas created via Zod (`src/lib/firebase/config.ts`).
+- [x] Cloud Firestore security rules created (`firestore.rules` — default deny client direct access).
+- [x] Firebase server-side health check route created (`/api/health/firebase`).
+- [x] Comprehensive environment variable documentation in `.env.example`.
+- [x] Automated test suite for Firebase configuration and error handling.
 
 ---
 
@@ -79,6 +100,14 @@ Local2Global/
 ```bash
 npm install
 ```
+
+### Environment Setup
+
+1. Copy `.env.example` to `.env.local`:
+   ```bash
+   cp .env.example .env.local
+   ```
+2. Populate `.env.local` with your Firebase project credentials.
 
 ### Development Server
 
@@ -103,3 +132,28 @@ npm run test
 # Production build
 npm run build
 ```
+
+---
+
+## Firebase Configuration Guide
+
+### 1. Client SDK Credentials
+In the [Firebase Console](https://console.firebase.google.com/):
+1. Navigate to **Project Settings** > **General**.
+2. Under **Your apps**, create a Web App.
+3. Copy the configuration into your `.env.local`:
+   - `NEXT_PUBLIC_FIREBASE_API_KEY`
+   - `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`
+   - `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
+   - `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`
+   - `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
+   - `NEXT_PUBLIC_FIREBASE_APP_ID`
+
+### 2. Admin SDK Credentials
+In the [Firebase Console](https://console.firebase.google.com/):
+1. Navigate to **Project Settings** > **Service accounts**.
+2. Click **Generate new private key**.
+3. Copy values into `.env.local`:
+   - `FIREBASE_PROJECT_ID`
+   - `FIREBASE_CLIENT_EMAIL`
+   - `FIREBASE_PRIVATE_KEY` (ensure escaped `\n` characters are preserved)

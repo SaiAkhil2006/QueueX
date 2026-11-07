@@ -1,0 +1,21 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // =========================================================================
+    // QueueX Cloud Firestore Security Rules (Prototype F0.2)
+    // =========================================================================
+    // By default, deny unrestricted client-side database access across all
+    // collections to protect patient and clinical data.
+    //
+    // All trusted backend operations executed through the Firebase Admin SDK
+    // (in Next.js Route Handlers) bypass these rules automatically.
+    //
+    // Granular role-based security rules (triage, doctors, patients, admin)
+    // will be introduced alongside authentication in future roadmap features.
+    // =========================================================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
