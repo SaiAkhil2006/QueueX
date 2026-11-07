@@ -103,6 +103,15 @@ Local2Global/
 - [x] Documented timestamp conventions and view model conversion helper (`Serialized<T>`).
 - [x] Unit test suite covering validation utilities and create/update operations (`tests/validation.test.ts`).
 
+### Feature F0.5: Application Layout and Navigation
+- [x] Persistent desktop sidebar with collapse mode (`src/components/layout/sidebar.tsx`).
+- [x] Accessible mobile navigation drawer (`src/components/layout/mobile-nav.tsx`).
+- [x] Topbar with dynamic breadcrumbs, hospital selector, and user avatar (`src/components/layout/topbar.tsx`).
+- [x] Unified layout container (`src/app/(dashboard)/layout.tsx` & `src/components/layout/dashboard-shell.tsx`).
+- [x] Initial hospital operations dashboard landing page (`src/app/(dashboard)/dashboard/page.tsx`).
+- [x] 12 placeholder feature routes with reusable `ComingSoon` component.
+- [x] Automated navigation tests and production build verification (`tests/navigation.test.ts`).
+
 ---
 
 ## Getting Started
