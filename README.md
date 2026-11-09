@@ -215,7 +215,7 @@ QueueX uses a modern web application stack with Firebase for backend infrastruct
 | Zod | Data validation |
 | Recharts | Analytics visualizations |
 | Vitest | Automated testing |
-| Firebase App Hosting | Deployment target |
+| Vercel | Deployment target |
 
 ---
 
