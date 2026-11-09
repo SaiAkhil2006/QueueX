@@ -35,9 +35,19 @@ export const createAppointmentSchema = appointmentSchema
     queueEntryId: true,
     createdAt: true,
     updatedAt: true,
+    scheduledAt: true,
   })
   .extend({
     id: z.string().optional(),
+    hospitalId: z.string().optional(),
+    patientName: z.string().optional(),
+    patientPhone: z.string().optional(),
+    doctorName: z.string().optional(),
+    departmentId: z.string().optional(),
+    departmentName: z.string().optional(),
+    scheduledAt: timestampSchema.optional(),
+    tokenNumber: z.number().int().positive().optional().nullable(),
+    queueEntryId: z.string().optional().nullable(),
     status: appointmentStatusSchema.default("booked"),
   });
 

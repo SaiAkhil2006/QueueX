@@ -1,16 +1,26 @@
-import { Timestamp } from "firebase-admin/firestore";
 import { z } from "zod";
+import type { Serialized } from "@/types/common";
+
+/**
+ * Structural interface matching Firestore Timestamp duck-typing
+ * without requiring client-side import of the Node.js firebase-admin package.
+ */
+export interface FirestoreTimestampLike {
+  seconds: number;
+  nanoseconds: number;
+  toDate(): Date;
+}
 
 /**
  * Union type representing acceptable timestamp representations across QueueX.
- * Supports native Firestore Timestamps, JavaScript Dates, ISO 8601 strings, and numeric epochs.
+ * Supports Firestore Timestamps, JavaScript Dates, ISO 8601 strings, and numeric epochs.
  */
-export type TimestampInput = Timestamp | Date | string | number;
+export type TimestampInput = FirestoreTimestampLike | Date | string | number;
 
 /**
  * Checks if a value is a Firestore Timestamp object.
  */
-export function isFirestoreTimestamp(val: unknown): val is Timestamp {
+export function isFirestoreTimestamp(val: unknown): val is FirestoreTimestampLike {
   return (
     typeof val === "object" &&
     val !== null &&
@@ -49,24 +59,15 @@ export function toISOString(input: TimestampInput | null | undefined): string | 
 }
 
 /**
- * Converts any valid TimestampInput into a Firestore Timestamp instance.
+ * Returns epoch milliseconds for any valid TimestampInput, or 0 if null/invalid.
  */
-export function toFirestoreTimestamp(input: TimestampInput = new Date()): Timestamp {
-  if (isFirestoreTimestamp(input)) {
-    return input;
+export function getTimestampMillis(input: TimestampInput | null | undefined): number {
+  if (input === null || input === undefined) return 0;
+  if (typeof (input as unknown as { toMillis?: () => number }).toMillis === "function") {
+    return (input as unknown as { toMillis: () => number }).toMillis();
   }
   const d = toDate(input);
-  if (!d) {
-    throw new Error(`Invalid timestamp input: ${String(input)}`);
-  }
-  return Timestamp.fromDate(d);
-}
-
-/**
- * Returns a new Firestore Timestamp representing the current moment.
- */
-export function nowTimestamp(): Timestamp {
-  return Timestamp.now();
+  return d ? d.getTime() : 0;
 }
 
 /**
@@ -88,3 +89,29 @@ export const timestampSchema = z.custom<TimestampInput>(
     message: "Expected a valid Firestore Timestamp, Date, ISO timestamp string, or millisecond epoch",
   }
 );
+
+/**
+ * Recursively converts all Firestore Timestamps and JavaScript Dates in an object or array to ISO 8601 strings.
+ */
+export function serializeTimestamps<T>(data: T): Serialized<T> {
+  if (data === null || data === undefined) {
+    return data as Serialized<T>;
+  }
+  if (isFirestoreTimestamp(data)) {
+    return data.toDate().toISOString() as Serialized<T>;
+  }
+  if (data instanceof Date) {
+    return data.toISOString() as Serialized<T>;
+  }
+  if (Array.isArray(data)) {
+    return data.map((item) => serializeTimestamps(item)) as Serialized<T>;
+  }
+  if (typeof data === "object") {
+    const result: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(data)) {
+      result[key] = serializeTimestamps(value);
+    }
+    return result as Serialized<T>;
+  }
+  return data as Serialized<T>;
+}

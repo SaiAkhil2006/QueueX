@@ -36,6 +36,10 @@ export const createDoctorScheduleSchema = doctorScheduleSchema
     id: z.string().optional(),
   });
 
+export const updateDoctorScheduleSchema = createDoctorScheduleSchema
+  .omit({ hospitalId: true, doctorId: true, departmentId: true })
+  .partial();
+
 export const opdSessionStatusSchema = z.enum(OPD_SESSION_STATUSES);
 
 export const opdSessionSchema = z.object({
@@ -63,6 +67,8 @@ export const opdSessionSchema = z.object({
 export const createOPDSessionSchema = opdSessionSchema
   .omit({
     id: true,
+    departmentName: true,
+    doctorName: true,
     totalTokensIssued: true,
     completedCount: true,
     waitingCount: true,
@@ -71,6 +77,9 @@ export const createOPDSessionSchema = opdSessionSchema
   })
   .extend({
     id: z.string().optional(),
+    hospitalId: z.string().optional(),
+    departmentName: z.string().optional(),
+    doctorName: z.string().optional(),
     totalTokensIssued: z.number().int().nonnegative().default(0),
     completedCount: z.number().int().nonnegative().default(0),
     waitingCount: z.number().int().nonnegative().default(0),

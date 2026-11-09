@@ -1,19 +1,21 @@
-import React from "react";
-import { ComingSoon } from "@/components/shared/coming-soon";
+import React, { Suspense } from "react";
+import { PredictionsView } from "@/features/predictions";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const DEFAULT_HOSPITAL_ID = "hosp-vzg-001";
 
 export default function PredictionsPage() {
   return (
-    <ComingSoon
-      featureTitle="Waiting Time Predictions"
-      section="Intelligence"
-      description="Predictive wait-time forecasting engine modeling doctor consultation velocity, arrival surges, and department pace."
-      plannedCapabilities={[
-        "Personalized per-patient wait time prediction countdowns",
-        "Arrival surge and queue length forecasting for incoming patients",
-        "Confidence scoring and explanation of contributing factors",
-        "Predicted clinic completion times to prevent overtime delays",
-      ]}
-      roadmapStage="Planned for Feature F0.9"
-    />
+    <Suspense
+      fallback={
+        <div className="p-6 space-y-4">
+          <Skeleton className="h-10 w-64" />
+          <Skeleton className="h-40 w-full" />
+          <Skeleton className="h-96 w-full" />
+        </div>
+      }
+    >
+      <PredictionsView hospitalId={DEFAULT_HOSPITAL_ID} />
+    </Suspense>
   );
 }

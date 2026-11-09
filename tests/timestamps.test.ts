@@ -3,11 +3,13 @@ import { Timestamp } from "firebase-admin/firestore";
 import {
   toDate,
   toISOString,
-  toFirestoreTimestamp,
-  nowTimestamp,
   isFirestoreTimestamp,
   timestampSchema,
 } from "@/lib/firebase/timestamps";
+import {
+  toFirestoreTimestamp,
+  nowTimestamp,
+} from "@/lib/firebase/server-timestamps";
 
 describe("Firestore Timestamp Utilities", () => {
   it("converts Date to Firestore Timestamp and back", () => {

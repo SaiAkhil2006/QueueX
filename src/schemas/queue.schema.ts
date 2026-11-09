@@ -47,9 +47,21 @@ export const createQueueEntrySchema = queueEntrySchema
     consultationCompletedAt: true,
     createdAt: true,
     updatedAt: true,
+    arrivalTime: true,
+    tokenNumber: true,
+    tokenDisplay: true,
   })
   .extend({
     id: z.string().optional(),
+    hospitalId: z.string().optional(),
+    departmentName: z.string().optional(),
+    doctorName: z.string().optional(),
+    patientName: z.string().optional(),
+    patientAge: z.number().int().optional(),
+    patientGender: patientGenderSchema.optional(),
+    tokenNumber: z.number().int().positive().optional(),
+    tokenDisplay: z.string().optional(),
+    arrivalTime: timestampSchema.optional(),
     status: queueEntryStatusSchema.default("waiting"),
   });
 

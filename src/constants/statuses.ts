@@ -52,7 +52,7 @@ export const APPOINTMENT_STATUSES = [
 ] as const;
 export type AppointmentStatus = (typeof APPOINTMENT_STATUSES)[number];
 
-export const APPOINTMENT_TYPES = ["regular", "follow_up", "referral"] as const;
+export const APPOINTMENT_TYPES = ["regular", "follow_up", "referral", "walk_in"] as const;
 export type AppointmentType = (typeof APPOINTMENT_TYPES)[number];
 
 // Live Queue
@@ -102,6 +102,11 @@ export const OPERATIONAL_EVENT_TYPES = [
   "patient_cancelled",
   "queue_delay_detected",
   "room_reassigned",
+  "session_started",
+  "session_paused",
+  "session_resumed",
+  "session_completed",
+  "session_cancelled",
 ] as const;
 export type OperationalEventType = (typeof OPERATIONAL_EVENT_TYPES)[number];
 

@@ -56,10 +56,14 @@ export function getFirebaseAdminConfig():
   | { success: true; data: FirebaseAdminConfig }
   | { success: false; errors: string[] } {
   const rawPrivateKey = process.env.FIREBASE_PRIVATE_KEY || "";
-  // Strip optional quotes and parse escaped newlines
-  const formattedPrivateKey = rawPrivateKey
+  let formattedPrivateKey = rawPrivateKey
     .replace(/^['"]|['"]$/g, "")
-    .replace(/\\n/g, "\n");
+    .replace(/\\n/g, "\n")
+    .trim();
+
+  if (formattedPrivateKey && !formattedPrivateKey.includes("BEGIN PRIVATE KEY")) {
+    formattedPrivateKey = `-----BEGIN PRIVATE KEY-----\n${formattedPrivateKey}\n-----END PRIVATE KEY-----\n`;
+  }
 
   const rawConfig = {
     projectId:

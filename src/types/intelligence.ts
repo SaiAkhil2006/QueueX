@@ -15,14 +15,14 @@ import {
 
 export type Prediction = z.infer<typeof predictionSchema>;
 export type WaitingTimePrediction = Prediction; // Domain alias
-export type CreatePredictionInput = z.infer<typeof createPredictionSchema>;
+export type CreatePredictionInput = z.input<typeof createPredictionSchema>;
 export type PredictionType = z.infer<typeof predictionTypeSchema>;
 export type PredictionConfidence = z.infer<typeof predictionConfidenceSchema>;
 export type PredictionFactor = z.infer<typeof predictionFactorSchema>;
 
 export type Recommendation = z.infer<typeof recommendationSchema>;
 export type OperationalRecommendation = Recommendation; // Domain alias
-export type CreateRecommendationInput = z.infer<typeof createRecommendationSchema>;
+export type CreateRecommendationInput = z.input<typeof createRecommendationSchema>;
 export type UpdateRecommendationStatusInput = z.infer<typeof updateRecommendationStatusSchema>;
 export type RecommendationType = z.infer<typeof recommendationTypeSchema>;
 export type RecommendationPriority = z.infer<typeof recommendationPrioritySchema>;

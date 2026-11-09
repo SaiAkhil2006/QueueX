@@ -1,19 +1,21 @@
-import React from "react";
-import { ComingSoon } from "@/components/shared/coming-soon";
+import React, { Suspense } from "react";
+import { AppointmentView } from "@/features/appointments";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const DEFAULT_HOSPITAL_ID = "hosp-vzg-001";
 
 export default function AppointmentsPage() {
   return (
-    <ComingSoon
-      featureTitle="OPD Appointments"
-      section="Patient Management"
-      description="Schedule outpatient visits, manage time slot allocations, and streamline patient check-in into active queue sessions."
-      plannedCapabilities={[
-        "Pre-booked appointment slot allocation per doctor and session",
-        "1-click check-in converting appointments into live queue tokens",
-        "Status tracking (Booked, Checked In, Completed, Cancelled, No Show)",
-        "Daily appointment intake forecasting against walk-in volume",
-      ]}
-      roadmapStage="Planned for Feature F0.7"
-    />
+    <Suspense
+      fallback={
+        <div className="p-6 space-y-4">
+          <Skeleton className="h-10 w-64" />
+          <Skeleton className="h-32 w-full" />
+          <Skeleton className="h-96 w-full" />
+        </div>
+      }
+    >
+      <AppointmentView hospitalId={DEFAULT_HOSPITAL_ID} />
+    </Suspense>
   );
 }

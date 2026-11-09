@@ -1,19 +1,21 @@
-import React from "react";
-import { ComingSoon } from "@/components/shared/coming-soon";
+import React, { Suspense } from "react";
+import { PatientView } from "@/features/patients";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const DEFAULT_HOSPITAL_ID = "hosp-vzg-001";
 
 export default function PatientsPage() {
   return (
-    <ComingSoon
-      featureTitle="Patient Registry & Intake"
-      section="Patient Management"
-      description="Register outpatient visitors, manage hospital Universal Health IDs (UHID), and look up patient medical history."
-      plannedCapabilities={[
-        "Quick patient intake with auto-generated UHID tokens",
-        "Fast patient search by phone, UHID, or name",
-        "Emergency contact and blood group records",
-        "Patient OPD visit timeline and past consultation summaries",
-      ]}
-      roadmapStage="Planned for Feature F0.7"
-    />
+    <Suspense
+      fallback={
+        <div className="p-6 space-y-4">
+          <Skeleton className="h-10 w-64" />
+          <Skeleton className="h-32 w-full" />
+          <Skeleton className="h-96 w-full" />
+        </div>
+      }
+    >
+      <PatientView hospitalId={DEFAULT_HOSPITAL_ID} />
+    </Suspense>
   );
 }

@@ -24,12 +24,14 @@ export const hospitalConfigurationSchema = z.object({
   emergencyWaitThresholdMinutes: z.number().int().positive().default(10),
   maxActiveQueuesPerDoctor: z.number().int().positive().default(1),
   autoCallNextEnabled: z.boolean().default(false),
+  operatingDays: z.array(z.number().int().min(0).max(6)).default([1, 2, 3, 4, 5, 6]),
 });
 
 export const hospitalSchema = z.object({
   id: z.string().min(1, "Hospital ID is required"),
   name: z.string().min(1, "Hospital name is required"),
   code: z.string().min(2, "Hospital code must be at least 2 characters").toUpperCase(),
+  description: z.string().optional(),
   address: z.string().min(1, "Address is required"),
   city: z.string().min(1, "City is required"),
   state: z.string().default("Andhra Pradesh"),
@@ -47,6 +49,7 @@ export const hospitalSchema = z.object({
     emergencyWaitThresholdMinutes: 10,
     maxActiveQueuesPerDoctor: 1,
     autoCallNextEnabled: false,
+    operatingDays: [1, 2, 3, 4, 5, 6],
   }),
   createdAt: timestampSchema,
   updatedAt: timestampSchema,
@@ -62,4 +65,8 @@ export const createHospitalSchema = hospitalSchema
     id: z.string().optional(),
   });
 
-export const updateHospitalSchema = createHospitalSchema.partial();
+export const updateHospitalSchema = createHospitalSchema
+  .extend({
+    configuration: hospitalConfigurationSchema.partial().optional(),
+  })
+  .partial();

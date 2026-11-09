@@ -41,7 +41,7 @@ export interface IdField {
  * Used for client-side view models and Next.js page props.
  */
 export type Serialized<T> = {
-  [K in keyof T]: T[K] extends Timestamp | TimestampInput
+  [K in keyof T]: T[K] extends Timestamp | Date
     ? string
     : T[K] extends (infer U)[]
     ? Serialized<U>[]

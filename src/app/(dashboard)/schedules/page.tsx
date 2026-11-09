@@ -1,19 +1,24 @@
-import React from "react";
-import { ComingSoon } from "@/components/shared/coming-soon";
+import React, { Suspense } from "react";
+import { ScheduleView } from "@/features/schedules";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function SchedulesPage() {
   return (
-    <ComingSoon
-      featureTitle="Doctor Duty Rosters & Schedules"
-      section="Hospital Management"
-      description="Define weekly clinic duty schedules, working shifts, maximum patient intake caps, and scheduled rest periods."
-      plannedCapabilities={[
-        "Weekly recurring shift templates across departments",
-        "Configurable morning and evening OPD consultation hours",
-        "Scheduled doctor break periods and clinic pauses",
-        "Max patient capacity limits per doctor session",
-      ]}
-      roadmapStage="Planned for Feature F0.6"
-    />
+    <Suspense
+      fallback={
+        <div className="space-y-6">
+          <Skeleton className="h-8 w-64" />
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+            <Skeleton className="h-24 w-full" />
+            <Skeleton className="h-24 w-full" />
+            <Skeleton className="h-24 w-full" />
+            <Skeleton className="h-24 w-full" />
+          </div>
+          <Skeleton className="h-96 w-full" />
+        </div>
+      }
+    >
+      <ScheduleView hospitalId="hosp-vzg-001" />
+    </Suspense>
   );
 }

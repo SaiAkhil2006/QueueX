@@ -1,19 +1,21 @@
-import React from "react";
-import { ComingSoon } from "@/components/shared/coming-soon";
+import React, { Suspense } from "react";
+import { QueueView } from "@/features/queue";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const DEFAULT_HOSPITAL_ID = "hosp-vzg-001";
 
 export default function QueuePage() {
   return (
-    <ComingSoon
-      featureTitle="Live OPD Queue Monitor"
-      section="Queue Operations"
-      description="Real-time multi-clinic queue orchestration, waiting room display boards, and clinical room calling consoles."
-      plannedCapabilities={[
-        "Public waiting hall digital display board with audio chime indicators",
-        "Doctor consultation console (Call Next, Begin Consultation, Skip, Complete)",
-        "Priority-based queue ordering ensuring emergency patients are seen first",
-        "Dynamic per-patient estimated wait time countdowns",
-      ]}
-      roadmapStage="Planned for Feature F0.8"
-    />
+    <Suspense
+      fallback={
+        <div className="p-6 space-y-4">
+          <Skeleton className="h-10 w-64" />
+          <Skeleton className="h-40 w-full" />
+          <Skeleton className="h-96 w-full" />
+        </div>
+      }
+    >
+      <QueueView hospitalId={DEFAULT_HOSPITAL_ID} />
+    </Suspense>
   );
 }

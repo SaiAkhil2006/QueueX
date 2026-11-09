@@ -35,6 +35,9 @@ export const createPatientSchema = patientSchema
   })
   .extend({
     id: z.string().optional(),
+    hospitalId: z.string().optional(),
+    uhid: z.string().optional(),
+    status: patientStatusSchema.default("active"),
   });
 
 export const updatePatientSchema = createPatientSchema

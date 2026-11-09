@@ -39,5 +39,5 @@ export const createDoctorSchema = doctorSchema
   });
 
 export const updateDoctorSchema = createDoctorSchema
-  .omit({ hospitalId: true, departmentId: true })
+  .omit({ hospitalId: true })
   .partial();

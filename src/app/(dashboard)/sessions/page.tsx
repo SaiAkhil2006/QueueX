@@ -1,19 +1,24 @@
-import React from "react";
-import { ComingSoon } from "@/components/shared/coming-soon";
+import React, { Suspense } from "react";
+import { SessionView } from "@/features/sessions/components/session-view";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function SessionsPage() {
   return (
-    <ComingSoon
-      featureTitle="Clinic OPD Sessions"
-      section="Queue Operations"
-      description="Manage daily outpatient clinic sessions, track active doctor rooms, and monitor session-level throughput."
-      plannedCapabilities={[
-        "Activate and initialize daily OPD sessions across clinical departments",
-        "Monitor session KPIs (running token, completed consultations, waiting queue)",
-        "Pause, resume, and extend active doctor clinic hours",
-        "Session sign-off and end-of-shift operational summary generation",
-      ]}
-      roadmapStage="Planned for Feature F0.8"
-    />
+    <Suspense
+      fallback={
+        <div className="space-y-6">
+          <Skeleton className="h-8 w-64" />
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+            <Skeleton className="h-24 w-full" />
+            <Skeleton className="h-24 w-full" />
+            <Skeleton className="h-24 w-full" />
+            <Skeleton className="h-24 w-full" />
+          </div>
+          <Skeleton className="h-96 w-full" />
+        </div>
+      }
+    >
+      <SessionView />
+    </Suspense>
   );
 }

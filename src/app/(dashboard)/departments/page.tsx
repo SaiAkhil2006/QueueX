@@ -1,19 +1,11 @@
 import React from "react";
-import { ComingSoon } from "@/components/shared/coming-soon";
+import { DepartmentView } from "@/features/departments";
+
+export const metadata = {
+  title: "Clinical Departments | QueueX",
+  description: "Manage outpatient medical departments, consultation rooms, and clinical benchmarks.",
+};
 
 export default function DepartmentsPage() {
-  return (
-    <ComingSoon
-      featureTitle="Clinical Departments"
-      section="Hospital Management"
-      description="Configure and monitor hospital outpatient departments, consultation pace baselines, assigned wings, and clinic statuses."
-      plannedCapabilities={[
-        "Register and configure clinical departments (Cardiology, Pediatrics, etc.)",
-        "Set department-specific average consultation duration baselines",
-        "Assign consultation rooms, wings, and floor levels",
-        "Real-time monitoring of department load and queue health",
-      ]}
-      roadmapStage="Planned for Feature F0.6"
-    />
-  );
+  return <DepartmentView hospitalId="hosp-vzg-001" />;
 }
